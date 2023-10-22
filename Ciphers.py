@@ -1,25 +1,31 @@
-#Загрузка библиотек
+# Загрузка библиотек
 import tkinter as tk
 from tkinter import messagebox
 import winsound
 
-#Словарь Азбуки Морзе для корректной работы шифратора на Азбуке Морзе
+# Словарь Азбуки Морзе для корректной работы шифратора на Азбуке Морзе
 morse_code = {
     "Russian": {
-        'А': '.-', 'Б': '-...', 'В': '.--', 'Г': '--.', 'Д': '-..', 'Е': '.', 'Ж': '...-', 'З': '--..', 'И': '..', 'Й': '.---', 'К': '-.-',
-        'Л': '.-..', 'М': '--', 'Н': '-.', 'О': '---', 'П': '.--.', 'Р': '.-.', 'С': '...', 'Т': '-', 'У': '..-', 'Ф': '..-.', 'Х': '....',
+        'А': '.-', 'Б': '-...', 'В': '.--', 'Г': '--.', 'Д': '-..', 'Е': '.', 'Ж': '...-', 'З': '--..', 'И': '..',
+        'Й': '.---', 'К': '-.-',
+        'Л': '.-..', 'М': '--', 'Н': '-.', 'О': '---', 'П': '.--.', 'Р': '.-.', 'С': '...', 'Т': '-', 'У': '..-',
+        'Ф': '..-.', 'Х': '....',
         'Ц': '-.-.', 'Ч': '---.', 'Ш': '----', 'Щ': '--.-', 'Ъ': '--.--', 'Ы': '-.--', 'Ь': '-..-', 'Э': '...-',
         'Ю': '..--', 'Я': '.-.-',
-        '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----'
+        '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+        '9': '----.', '0': '-----'
     },
     "English": {
-        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-',
-        'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-',
+        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..',
+        'J': '.---', 'K': '-.-',
+        'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+        'U': '..-', 'V': '...-',
         'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..',
-        '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----'
+        '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+        '9': '----.', '0': '-----'
     }
 }
-#Словарь двоичного кода
+# Словарь двоичного кода
 binary_code = {
     "Russian": {
         'А': '1101000010010000', 'Б': '1101000010010001', 'В': '1101000010010010', 'Г': '1101000010010011',
@@ -34,43 +40,50 @@ binary_code = {
         '5': '00110101', '6': '00110110', '7': '00110111', '8': '00111000', '9': '00111001'
     },
     "English": {
-        'A': '01000001', 'B': '01000010', 'C': '01000011', 'D': '01000100', 'E': '01000101', 'F': '01000110', 'G': '01000111',
-        'H': '01001000', 'I': '01001001', 'J': '01001010', 'K': '01001011', 'L': '01001100', 'M': '01001101', 'N': '01001110',
-        'O': '01001111', 'P': '01010000', 'Q': '01010001', 'R': '01010010', 'S': '01010011', 'T': '01010100', 'U': '01010101',
-        'V': '01010110', 'W': '01010111', 'X': '01011000', 'Y': '01011001', 'Z': '01011010', '0': '00110000', '1':'00110001',
-        '2': '00110010', '3': '00110011', '4': '00110100', '5': '00110101', '6': '00110110', '7': '00110111', '8': '00111000',
+        'A': '01000001', 'B': '01000010', 'C': '01000011', 'D': '01000100', 'E': '01000101', 'F': '01000110',
+        'G': '01000111',
+        'H': '01001000', 'I': '01001001', 'J': '01001010', 'K': '01001011', 'L': '01001100', 'M': '01001101',
+        'N': '01001110',
+        'O': '01001111', 'P': '01010000', 'Q': '01010001', 'R': '01010010', 'S': '01010011', 'T': '01010100',
+        'U': '01010101',
+        'V': '01010110', 'W': '01010111', 'X': '01011000', 'Y': '01011001', 'Z': '01011010', '0': '00110000',
+        '1': '00110001',
+        '2': '00110010', '3': '00110011', '4': '00110100', '5': '00110101', '6': '00110110', '7': '00110111',
+        '8': '00111000',
         '9': '00111001'
     }
 }
 
 """ Основные функции шифрования (шифрование и дешифрование)"""
 
-def caesar_cipher(text, shift, action, language): #Шифр Цезаря
+
+def caesar_cipher(text, shift, action, language):  # Шифр Цезаря
     alphabet = ''
-    if language == "English": #Английский алафавит
+    if language == "English":  # Английский алафавит
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     elif language == "Russian":
-        alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' #Русский алфавит
+        alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'  # Русский алфавит
     else:
         messagebox.showerror("Ошибка", "Выбран неподдерживаемый язык")
         return ""
 
-    result = '' #Строка, куда будет записываться результат
-    for char in text: #Цикл для посимвольного шифрования
-        if char.upper() in alphabet: #Если символ находится в алфавите
-            index = (alphabet.index(char.upper()) + shift) % len(alphabet) #Шифрование символа
+    result = ''  # Строка, куда будет записываться результат
+    for char in text:  # Цикл для посимвольного шифрования
+        if char.upper() in alphabet:  # Если символ находится в алфавите
+            index = (alphabet.index(char.upper()) + shift) % len(alphabet)  # Шифрование символа
             if action == "Дешифровать":
-                index = (alphabet.index(char.upper()) - shift) % len(alphabet) #Дешифрование
+                index = (alphabet.index(char.upper()) - shift) % len(alphabet)  # Дешифрование
             if char.islower():
-                result += alphabet[index].lower() #Для строчных букв
+                result += alphabet[index].lower()  # Для строчных букв
             else:
-                result += alphabet[index] #Для заглавных букв
+                result += alphabet[index]  # Для заглавных букв
         else:
-            result += char #Если символ не находится в алафавите, то возвращается он же
+            result += char  # Если символ не находится в алафавите, то возвращается он же
 
-    return result #Возврат результат
+    return result  # Возврат результат
 
-def vigenere_cipher(text, key, action, language): #Шифр Виженера - работает по аналонии с шифром Цезаря
+
+def vigenere_cipher(text, key, action, language):  # Шифр Виженера - работает по аналонии с шифром Цезаря
     alphabet = ''
     if language == "English":
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -81,38 +94,39 @@ def vigenere_cipher(text, key, action, language): #Шифр Виженера - �
         return ""
 
     result = ''
-    key_length = len(key) #Длина ключа
-    key = key.upper() #Ключ - слово
+    key_length = len(key)  # Длина ключа
+    key = key.upper()  # Ключ - слово
     text = text.upper()  # Заданный текст
 
     for i, char in enumerate(text):
         if char in alphabet:
-            key_char = key[i % key_length]   #Символ ключевого слова
-            shift = alphabet.index(key_char) #Определение номера алфавита по символам из ключевого слова (сдвиг)
+            key_char = key[i % key_length]  # Символ ключевого слова
+            shift = alphabet.index(key_char)  # Определение номера алфавита по символам из ключевого слова (сдвиг)
             if action == "Дешифровать":
-                shift = -shift #Обратный сдвиг
-            index = (alphabet.index(char) + shift) % len(alphabet) #Шифрование
+                shift = -shift  # Обратный сдвиг
+            index = (alphabet.index(char) + shift) % len(alphabet)  # Шифрование
             result += alphabet[index]
         else:
             result += char
 
     return result.lower()
 
-def atbash_cipher(text, language): #Шифр Атбаша
-    if language == 'Russian': #Русский алфавит
-        alphabet_lower = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя' #Строчные буквы
-        alphabet_upper = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' #Заглавные буквы
+
+def atbash_cipher(text, language):  # Шифр Атбаша
+    if language == 'Russian':  # Русский алфавит
+        alphabet_lower = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'  # Строчные буквы
+        alphabet_upper = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'  # Заглавные буквы
         result = ''
         for char in text:
-            if char in alphabet_lower: #Если символ в строчном алфавите
-                index = alphabet_lower.index(char) #Получение номера буквы
-                result += alphabet_lower[32 - index] #Переворот алфавита
-            elif char in alphabet_upper: #Если символ в заглавном алфавите
+            if char in alphabet_lower:  # Если символ в строчном алфавите
+                index = alphabet_lower.index(char)  # Получение номера буквы
+                result += alphabet_lower[32 - index]  # Переворот алфавита
+            elif char in alphabet_upper:  # Если символ в заглавном алфавите
                 index = alphabet_upper.index(char)
                 result += alphabet_upper[32 - index]
             else:
                 result += char
-    elif language == 'English': #Английский алфавит
+    elif language == 'English':  # Английский алфавит
         alphabet_lower = 'abcdefghijklmnopqrstuvwxyz'
         alphabet_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         result = ''
@@ -128,14 +142,15 @@ def atbash_cipher(text, language): #Шифр Атбаша
 
     return result
 
-def morse_cipher(text, language): # Шифратор Морзе
+
+def morse_cipher(text, language):  # Шифратор Морзе
     morse_dict = morse_code.get(language, None)
     if not morse_dict:
         messagebox.showerror("Ошибка", "Выбран неподдерживаемый язык")
         return ""
 
     result = ''
-    for char in text: #Преобразует символы по словарю (ключ = значение)
+    for char in text:  # Преобразует символы по словарю (ключ = значение)
         if char.upper() in morse_dict:
             result += morse_dict[char.upper()] + ' '
         elif char == ' ':
@@ -145,7 +160,8 @@ def morse_cipher(text, language): # Шифратор Морзе
 
     return result
 
-def morse_decipher(text, language): #Дешифратор Морзе
+
+def morse_decipher(text, language):  # Дешифратор Морзе
     morse_dict = morse_code.get(language, None)
     if not morse_dict:
         messagebox.showerror("Ошибка", "Выбран неподдерживаемый язык")
@@ -153,7 +169,7 @@ def morse_decipher(text, language): #Дешифратор Морзе
 
     result = ''
     morse_list = text.split(' ')
-    for morse_char in morse_list: #Преобразует символы по словарю (значение = ключ)
+    for morse_char in morse_list:  # Преобразует символы по словарю (значение = ключ)
         if morse_char in morse_dict.values():
             for key, value in morse_dict.items():
                 if morse_char == value:
@@ -165,7 +181,8 @@ def morse_decipher(text, language): #Дешифратор Морзе
 
     return result.lower()
 
-def binary_cipher(text, language): #Шифратор (Двоичный код)
+
+def binary_cipher(text, language):  # Шифратор (Двоичный код)
     binary_dict = binary_code.get(language, None)
     if not binary_dict:
         messagebox.showerror("Ошибка", "Выбран неподдерживаемый язык")
@@ -182,7 +199,8 @@ def binary_cipher(text, language): #Шифратор (Двоичный код)
 
     return result
 
-def binary_decipher(text, language): #Дешифратор (Двоичный код)
+
+def binary_decipher(text, language):  # Дешифратор (Двоичный код)
     binary_dict = binary_code.get(language, None)
     if not binary_dict:
         messagebox.showerror("Ошибка", "Выбран неподдерживаемый язык")
@@ -202,19 +220,22 @@ def binary_decipher(text, language): #Дешифратор (Двоичный к�
 
     return result
 
+
 """Выполнение шифров (для срабатывания функции при нажатии на кнопку)"""
 
-def perform_ceasar_cipher(): #Шифр Цезаря
-    text = input_text.get("1.0", "end-1c") #Глобальные переменные
+
+def perform_ceasar_cipher():  # Шифр Цезаря
+    text = input_text.get("1.0", "end-1c")  # Глобальные переменные
     shift = int(shift_var.get())
     action = action_var.get()
     language = language_var.get()
 
-    result = caesar_cipher(text, shift, action, language) #Получение результата
-    output_text.delete("1.0", tk.END) #Удаление текста из поля
-    output_text.insert(tk.END, result) #Добавление текста в поле
+    result = caesar_cipher(text, shift, action, language)  # Получение результата
+    output_text.delete("1.0", tk.END)  # Удаление текста из поля
+    output_text.insert(tk.END, result)  # Добавление текста в поле
 
-def perform_vigenere_cipher(): #Шифр Виженера
+
+def perform_vigenere_cipher():  # Шифр Виженера
     text = input_text.get("1.0", "end-1c")
     key = key_var.get()
     action = action_var.get()
@@ -224,7 +245,8 @@ def perform_vigenere_cipher(): #Шифр Виженера
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, result)
 
-def perform_atbash_cipher(): #Шифр Атбаша
+
+def perform_atbash_cipher():  # Шифр Атбаша
     text = input_text.get("1.0", "end-1c")
     action = action_var.get()
     language = language_var.get()
@@ -233,7 +255,8 @@ def perform_atbash_cipher(): #Шифр Атбаша
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, result)
 
-def perform_morse_cipher(): #Азбука Морзе
+
+def perform_morse_cipher():  # Азбука Морзе
     text = input_text.get("1.0", "end-1c")
     action = action_var.get()
     language = language_var.get()
@@ -245,6 +268,7 @@ def perform_morse_cipher(): #Азбука Морзе
 
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, result)
+
 
 def perform_binary_cipher():
     text = input_text.get("1.0", "end-1c")
@@ -259,13 +283,16 @@ def perform_binary_cipher():
     output_text.delete("1.0", tk.END)
     output_text.insert(tk.END, result.lower())
 
+
 """ Вспомогательные функции"""
 
-def clear_text(): #Удаление текста
+
+def clear_text():  # Удаление текста
     input_text.delete("1.0", tk.END)
     output_text.delete("1.0", tk.END)
 
-def play_morse_code(text): #Функция звукового воспроиведения азбуки Морзе
+
+def play_morse_code(text):  # Функция звукового воспроиведения азбуки Морзе
     for char in text:
         if char == '.':
             winsound.Beep(1000, 200)  # Воспроизведение точки
@@ -274,14 +301,17 @@ def play_morse_code(text): #Функция звукового воспроиве
         elif char == ' ':
             pass  # Пауза между символами
 
-def play_morse_result(): #Воспроизведение результата
+
+def play_morse_result():  # Воспроизведение результата
     text = output_text.get("1.0", "end-1c")
     play_morse_code(text)
 
+
 """ Функции, отвечающие за создание новых окон. Содержат в себе различные графические элементы. """
 
-def create_caesar_cipher_window(): #Шифр Цезаря
-    #Создание нового окна и задание загаловка
+
+def create_caesar_cipher_window():  # Шифр Цезаря
+    # Создание нового окна и задание загаловка
     caesar_cipher_window = tk.Toplevel(root)
     caesar_cipher_window.title("Шифр Цезаря")
 
@@ -297,7 +327,7 @@ def create_caesar_cipher_window(): #Шифр Цезаря
     shift_entry = tk.Entry(caesar_cipher_window, textvariable=shift_var)
     shift_entry.pack()
 
-    action_label = tk.Label(caesar_cipher_window, text="Действие:" )
+    action_label = tk.Label(caesar_cipher_window, text="Действие:")
     action_label.pack()
     action_var.set("Зашифровать")  # Значение по умолчанию
     action_menu = tk.OptionMenu(caesar_cipher_window, action_var, "Зашифровать", "Дешифровать")
@@ -315,13 +345,18 @@ def create_caesar_cipher_window(): #Шифр Цезаря
     output_text = tk.Text(caesar_cipher_window, height=5, width=40)
     output_text.pack()
 
-    cipher_button = tk.Button(caesar_cipher_window, text="Выполнить шифрование/дешифрование", command=perform_ceasar_cipher)
+    cipher_button = tk.Button(caesar_cipher_window, text="Выполнить шифрование/дешифрование",
+                              command=perform_ceasar_cipher)
     cipher_button.pack()
 
     clear_button = tk.Button(caesar_cipher_window, text="Стереть", command=clear_text)
     clear_button.pack()
 
-def create_vigenere_cipher_window(): #Шифр Виженера
+    copy = tk.Label(caesar_cipher_window, text="©Нечаев Евгений Александрович")
+    copy.pack(side="bottom")
+
+
+def create_vigenere_cipher_window():  # Шифр Виженера
     vigenere_cipher_window = tk.Toplevel(root)
     vigenere_cipher_window.title("Шифр Виженера")
 
@@ -356,15 +391,20 @@ def create_vigenere_cipher_window(): #Шифр Виженера
     output_text = tk.Text(vigenere_cipher_window, height=5, width=40)
     output_text.pack()
 
-    cipher_button = tk.Button(vigenere_cipher_window, text="Выполнить шифрование/дешифрование", command=perform_vigenere_cipher)
+    cipher_button = tk.Button(vigenere_cipher_window, text="Выполнить шифрование/дешифрование",
+                              command=perform_vigenere_cipher)
     cipher_button.pack()
 
     clear_button = tk.Button(vigenere_cipher_window, text="Стереть", command=clear_text)
     clear_button.pack()
 
-def create_atbash_cipher_window(): #Шифр Атбаша
+    copy = tk.Label(vigenere_cipher_window, text="©Нечаев Евгений Александрович")
+    copy.pack(side="bottom")
+
+
+def create_atbash_cipher_window():  # Шифр Атбаша
     atbash_cipher_window = tk.Toplevel(root)
-    atbash_cipher_window.title("Шифр Атбаша")
+    atbash_cipher_window.title("Шифр Атбаш")
 
     language_label = tk.Label(atbash_cipher_window, text="Язык:")
     language_label.pack()
@@ -384,13 +424,18 @@ def create_atbash_cipher_window(): #Шифр Атбаша
     output_text = tk.Text(atbash_cipher_window, height=5, width=40)
     output_text.pack()
 
-    cipher_button = tk.Button(atbash_cipher_window, text="Выполнить шифрование/дешифрование", command=perform_atbash_cipher)
+    cipher_button = tk.Button(atbash_cipher_window, text="Выполнить шифрование/дешифрование",
+                              command=perform_atbash_cipher)
     cipher_button.pack()
 
     clear_button = tk.Button(atbash_cipher_window, text="Стереть", command=clear_text)
     clear_button.pack()
 
-def create_morse_cipher_window(): #Азбука Морзе
+    copy = tk.Label(atbash_cipher_window, text="©Нечаев Евгений Александрович")
+    copy.pack(side="bottom")
+
+
+def create_morse_cipher_window():  # Азбука Морзе
     morse_cipher_window = tk.Toplevel(root)
     morse_cipher_window.title("Азбука Морзе")
 
@@ -418,7 +463,8 @@ def create_morse_cipher_window(): #Азбука Морзе
     output_text = tk.Text(morse_cipher_window, height=5, width=40)
     output_text.pack()
 
-    cipher_button = tk.Button(morse_cipher_window, text="Выполнить шифрование/дешифрование", command=perform_morse_cipher)
+    cipher_button = tk.Button(morse_cipher_window, text="Выполнить шифрование/дешифрование",
+                              command=perform_morse_cipher)
     cipher_button.pack()
 
     play_morse_button = tk.Button(morse_cipher_window, text="Озвучить Морзе", command=play_morse_result)
@@ -426,6 +472,9 @@ def create_morse_cipher_window(): #Азбука Морзе
 
     clear_button = tk.Button(morse_cipher_window, text="Стереть", command=clear_text)
     clear_button.pack()
+
+    copy = tk.Label(morse_cipher_window, text="©Нечаев Евгений Александрович")
+    copy.pack(side="bottom")
 
 def create_binary_cipher_window():
     binary_cipher_window = tk.Toplevel(root)
@@ -455,13 +504,18 @@ def create_binary_cipher_window():
     output_text = tk.Text(binary_cipher_window, height=5, width=40)
     output_text.pack()
 
-    cipher_button = tk.Button(binary_cipher_window, text="Выполнить шифрование/дешифрование", command=perform_binary_cipher)
+    cipher_button = tk.Button(binary_cipher_window, text="Выполнить шифрование/дешифрование",
+                              command=perform_binary_cipher)
     cipher_button.pack()
 
     clear_button = tk.Button(binary_cipher_window, text="Стереть", command=clear_text)
     clear_button.pack()
 
-class ThemeManager: #Класс для переключения темы
+    copy = tk.Label(binary_cipher_window, text="©Нечаев Евгений Александрович")
+    copy.pack(side="bottom")
+
+
+class ThemeManager:  # Класс для переключения темы
     def __init__(self, root):
         self.root = root
         self.is_dark_mode = False
@@ -476,22 +530,24 @@ class ThemeManager: #Класс для переключения темы
 
 """Создание главного(начального) окна"""
 
-#Изначальная настрока
+# Изначальная настрока
 root = tk.Tk()
 root.geometry('250x190')
 root.title("Шифраторы")
 root.configure(pady=5, padx=5)
 
-theme_manager = ThemeManager(root) #Создание экземпляра класса
+theme_manager = ThemeManager(root)  # Создание экземпляра класса
 
-def toggle_theme(): #Переключение темы
+
+def toggle_theme():  # Переключение темы
     theme_manager.toggle_theme()
 
-#Знак копирайта
-copyryte_lable = tk.Label(root, text = "©Нечаев Евгений Александрович")
-copyryte_lable.pack(anchor="nw")
 
-#Кнопки на шифры
+# Знак копирайта
+copyryte_lable = tk.Label(root, text="©Нечаев Евгений Александрович")
+copyryte_lable.pack(side="bottom")
+
+# Кнопки на шифры
 caesar_cipher_button = tk.Button(root, text="Шифр Цезаря", command=create_caesar_cipher_window)
 caesar_cipher_button.pack(side="top", fill="x")
 
@@ -507,13 +563,13 @@ morse_cipher_button.pack(side="top", fill="x")
 binary_cipher_button = tk.Button(root, text="Двоичный код", command=create_binary_cipher_window)
 binary_cipher_button.pack(side="top", fill="x")
 
-#Кнопка переключения темы
+# Кнопка переключения темы
 theme_button = tk.Button(root, text="Переключить тему", command=toggle_theme)
 theme_button.pack(side="top", fill="x", ipady=20)
 
-#Глобальные переменные
+# Глобальные переменные
 shift_var = tk.StringVar()
 action_var = tk.StringVar()
 language_var = tk.StringVar()
 
-root.mainloop() #Отображение окна и взаимодействие с пользователем
+root.mainloop()  # Отображение окна и взаимодействие с пользователем
